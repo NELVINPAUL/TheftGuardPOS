@@ -1,0 +1,751 @@
+
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);font-size:14px;background:transparent;color:var(--tg-text);min-height:100vh;transition:background .3s,color .3s}
+
+/* ── THEME ENGINE ── */
+body.theme-default{--tg-bg:#0d2b45;--tg-bg2:#122f4a;--tg-accent:#1a7fc1;--tg-accent2:#2596d1;--tg-surface:#f8fafc;--tg-surface2:#eef3f8;--tg-text:#1a2332;--tg-text2:#4a5568;--tg-border:#d1dde8;--tg-topbar:#0d2b45;--tg-topbar-text:#fff;--tg-sidebar:#122f4a;--tg-sidebar-text:rgba(255,255,255,.75);--tg-sidebar-active:#fff;--tg-sidebar-activebg:rgba(255,255,255,.12);--tg-metric:#fff;--tg-metricborder:#d1dde8;--tg-card:#fff;--tg-cardborder:#d1dde8;--tg-input:#fff;--tg-inputborder:#b0bec5;--tg-danger-bg:#fff0f0;--tg-danger-t:#c0392b;--tg-warn-bg:#fffbf0;--tg-warn-t:#b7770d;--tg-success-bg:#f0fff4;--tg-success-t:#1a7a40;--tg-info-bg:#eef6ff;--tg-info-t:#1a6fba;--tg-tag-bg:#eef3f8;--tg-tag-t:#4a5568;--tg-clock:#1a7fc1}
+body.theme-yellow{--tg-bg:#1a1200;--tg-bg2:#221800;--tg-accent:#f5c518;--tg-accent2:#ffd740;--tg-surface:#0d0900;--tg-surface2:#1a1200;--tg-text:#f5c518;--tg-text2:#c9a816;--tg-border:#3d2e00;--tg-topbar:#0d0900;--tg-topbar-text:#f5c518;--tg-sidebar:#1a1200;--tg-sidebar-text:rgba(245,197,24,.65);--tg-sidebar-active:#f5c518;--tg-sidebar-activebg:rgba(245,197,24,.12);--tg-metric:#1a1200;--tg-metricborder:#3d2e00;--tg-card:#1a1200;--tg-cardborder:#3d2e00;--tg-input:#0d0900;--tg-inputborder:#3d2e00;--tg-danger-bg:#2a0a00;--tg-danger-t:#ff6b35;--tg-warn-bg:#221400;--tg-warn-t:#f5c518;--tg-success-bg:#001a05;--tg-success-t:#39d353;--tg-info-bg:#001422;--tg-info-t:#4db8ff;--tg-tag-bg:#221800;--tg-tag-t:#f5c518;--tg-clock:#f5c518}
+body.theme-blue{--tg-bg:#0a192f;--tg-bg2:#0f2240;--tg-accent:#4fc3f7;--tg-accent2:#81d4fa;--tg-surface:#fff;--tg-surface2:#f0f8ff;--tg-text:#0a192f;--tg-text2:#2d4a6e;--tg-border:#b0cfe8;--tg-topbar:#0a192f;--tg-topbar-text:#e0f4ff;--tg-sidebar:#0f2240;--tg-sidebar-text:rgba(224,244,255,.7);--tg-sidebar-active:#e0f4ff;--tg-sidebar-activebg:rgba(79,195,247,.15);--tg-metric:#fff;--tg-metricborder:#b0cfe8;--tg-card:#fff;--tg-cardborder:#b0cfe8;--tg-input:#fff;--tg-inputborder:#7cb8d8;--tg-danger-bg:#fff0f0;--tg-danger-t:#c0392b;--tg-warn-bg:#fffbf0;--tg-warn-t:#b7770d;--tg-success-bg:#f0fff4;--tg-success-t:#1a7a40;--tg-info-bg:#e0f4ff;--tg-info-t:#0a6090;--tg-tag-bg:#e0f4ff;--tg-tag-t:#0a6090;--tg-clock:#4fc3f7}
+
+/* ── LOGIN ── */
+#login-wrap{min-height:720px;display:flex;flex-direction:column;background:var(--tg-bg)}
+.login-top{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--tg-topbar);border-bottom:1px solid rgba(255,255,255,.06)}
+.login-clock{font-size:22px;font-weight:500;color:var(--tg-clock);font-family:var(--font-mono);letter-spacing:.04em}
+.login-date{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px;text-align:right}
+.login-body{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-card{width:100%;max-width:400px;background:var(--tg-card);border:1px solid var(--tg-cardborder);border-radius:16px;padding:2rem}
+.brand{text-align:center;margin-bottom:1.75rem}
+.brand-logo{width:56px;height:56px;background:var(--tg-accent);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;color:#fff}
+.brand h1{font-size:20px;font-weight:500;color:var(--tg-text)}
+.brand p{font-size:12px;color:var(--tg-text2);margin-top:3px}
+.field{margin-bottom:.9rem}
+.field label{display:block;font-size:11px;font-weight:500;color:var(--tg-text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.06em}
+.field input,.field select{width:100%;padding:10px 12px;border:1px solid var(--tg-inputborder);border-radius:8px;background:var(--tg-input);color:var(--tg-text);font-size:14px;font-family:var(--font-sans)}
+.field input:focus{outline:none;border-color:var(--tg-accent);box-shadow:0 0 0 3px rgba(26,127,193,.12)}
+.pass-wrap{position:relative}
+.pass-wrap input{padding-right:40px}
+.pass-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;color:var(--tg-text2);font-size:17px;background:none;border:none;padding:2px}
+.security-bar{margin:.5rem 0 .8rem;height:4px;border-radius:2px;background:var(--tg-border);overflow:hidden}
+.security-fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
+.security-label{font-size:11px;color:var(--tg-text2);margin-bottom:.8rem}
+.btn-login{width:100%;padding:12px;background:var(--tg-accent);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;margin-top:.25rem;transition:background .15s}
+.btn-login:hover{background:var(--tg-accent2);color:#0a192f}
+.btn-login:disabled{opacity:.5;cursor:not-allowed}
+.forgot-link{display:block;text-align:center;margin-top:.9rem;font-size:13px;color:var(--tg-accent);cursor:pointer;text-decoration:underline}
+.err-msg{color:var(--tg-danger-t);font-size:12px;margin-top:.6rem;text-align:center;min-height:18px}
+.role-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem}
+.rpill{padding:4px 9px;border:1px solid var(--tg-border);border-radius:20px;font-size:11px;cursor:pointer;background:transparent;color:var(--tg-text2);transition:all .12s}
+.rpill.active{background:var(--tg-accent);color:#fff;border-color:var(--tg-accent)}
+.capslock-warn{font-size:11px;color:var(--tg-warn-t);display:none;margin-top:3px}
+.attempts-warn{font-size:12px;color:var(--tg-danger-t);text-align:center;margin-top:4px;display:none}
+
+/* ── LOCKOUT SCREEN ── */
+#lockout-wrap{display:none;min-height:300px;align-items:center;justify-content:center;flex-direction:column;padding:2rem;gap:1rem;text-align:center}
+#lockout-wrap h2{color:var(--tg-danger-t);font-size:18px}
+#lockout-wrap p{color:var(--tg-text2);font-size:14px}
+#lockout-timer{font-size:32px;font-weight:500;color:var(--tg-accent);font-family:var(--font-mono)}
+
+/* ── FORGOT MODAL WRAPPER ── */
+#forgot-wrap{display:none;min-height:360px;align-items:center;justify-content:center;background:rgba(0,0,0,.45);padding:1rem}
+.modal-card{background:var(--tg-card);border:1px solid var(--tg-cardborder);border-radius:14px;padding:2rem;width:100%;max-width:380px}
+.modal-card h2{font-size:18px;font-weight:500;margin-bottom:.4rem;color:var(--tg-text)}
+.modal-card p{font-size:13px;color:var(--tg-text2);margin-bottom:1.25rem}
+.modal-actions{display:flex;gap:8px;margin-top:1rem}
+.btn-sm{padding:8px 14px;border:1px solid var(--tg-border);border-radius:8px;font-size:13px;cursor:pointer;background:var(--tg-card);color:var(--tg-text)}
+.btn-sm.primary{background:var(--tg-accent);color:#fff;border-color:var(--tg-accent)}
+.success-msg{font-size:13px;color:var(--tg-success-t);background:var(--tg-success-bg);padding:8px 12px;border-radius:8px;display:none;margin-top:.5rem}
+
+/* ── SESSION LOG TOAST ── */
+#session-toast{position:relative;margin:0;padding:10px 16px;font-size:13px;display:none;border-left:3px solid;border-radius:0}
+#session-toast.login-toast{background:var(--tg-success-bg);color:var(--tg-success-t);border-color:var(--tg-success-t)}
+#session-toast.logout-toast{background:var(--tg-warn-bg);color:var(--tg-warn-t);border-color:var(--tg-warn-t)}
+
+/* ── APP SHELL ── */
+#app-wrap{display:none;min-height:700px;flex-direction:column;background:var(--tg-surface2)}
+.topbar{display:flex;align-items:center;gap:10px;padding:0 1.1rem;height:52px;background:var(--tg-topbar);border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.topbar-brand{font-size:15px;font-weight:500;color:var(--tg-topbar-text);display:flex;align-items:center;gap:7px;flex:1}
+.topbar-brand span{font-size:18px}
+.topbar-clock{font-size:16px;font-weight:500;color:var(--tg-clock);font-family:var(--font-mono);letter-spacing:.04em;margin-right:4px}
+.topbar-date{font-size:11px;color:rgba(255,255,255,.45);margin-right:10px}
+.topbar-user{font-size:12px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:6px}
+.role-badge{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500;background:rgba(255,255,255,.14);color:var(--tg-topbar-text)}
+.session-badge{font-size:11px;color:rgba(255,255,255,.5)}
+.logout-btn{padding:5px 11px;background:rgba(255,255,255,.09);color:var(--tg-topbar-text);border:1px solid rgba(255,255,255,.18);border-radius:7px;font-size:12px;cursor:pointer;transition:background .15s}
+.logout-btn:hover{background:rgba(200,30,30,.35);border-color:rgba(200,30,30,.5)}
+.theme-btns{display:flex;gap:4px;margin-right:6px}
+.theme-btn{padding:4px 8px;border-radius:6px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:var(--tg-topbar-text);cursor:pointer;transition:all .15s}
+.theme-btn:hover{background:rgba(255,255,255,.18)}
+.theme-btn.active{background:var(--tg-accent);border-color:var(--tg-accent)}
+
+.layout{display:flex;flex:1;min-height:648px}
+.sidebar{width:195px;background:var(--tg-sidebar);border-right:1px solid rgba(255,255,255,.05);padding:.75rem 0;flex-shrink:0;overflow-y:auto}
+.nav-section{font-size:9px;font-weight:500;color:var(--tg-sidebar-text);text-transform:uppercase;letter-spacing:.1em;padding:0 1rem;margin:.9rem 0 .3rem}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 1rem;font-size:13px;color:var(--tg-sidebar-text);cursor:pointer;border-left:2px solid transparent;transition:all .12s}
+.nav-item:hover{background:rgba(255,255,255,.07);color:var(--tg-sidebar-active)}
+.nav-item.active{background:var(--tg-sidebar-activebg);color:var(--tg-sidebar-active);border-left-color:var(--tg-accent)}
+.nav-item i{font-size:16px;opacity:.8}
+.nav-item.active i{opacity:1}
+
+.main{flex:1;overflow-y:auto;padding:1.1rem;background:var(--tg-surface2)}
+.page{display:none}
+.page.active{display:block}
+.page-title{font-size:17px;font-weight:500;margin-bottom:1rem;color:var(--tg-text);display:flex;align-items:center;gap:8px}
+
+/* ── METRICS ── */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.1rem}
+.metric{background:var(--tg-metric);border:1px solid var(--tg-metricborder);border-radius:10px;padding:.9rem}
+.metric-label{font-size:11px;color:var(--tg-text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.metric-value{font-size:21px;font-weight:500;color:var(--tg-text)}
+.metric-sub{font-size:11px;color:var(--tg-text2);margin-top:3px}
+.metric.danger{background:var(--tg-danger-bg)}.metric.danger .metric-value{color:var(--tg-danger-t)}
+.metric.success{background:var(--tg-success-bg)}.metric.success .metric-value{color:var(--tg-success-t)}
+.metric.warn{background:var(--tg-warn-bg)}.metric.warn .metric-value{color:var(--tg-warn-t)}
+
+/* ── CARDS ── */
+.card{background:var(--tg-card);border:1px solid var(--tg-cardborder);border-radius:12px;padding:1.1rem;margin-bottom:1.1rem}
+.card-title{font-size:14px;font-weight:500;margin-bottom:.9rem;color:var(--tg-text);display:flex;align-items:center;justify-content:space-between}
+
+/* ── TABLES ── */
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:7px 9px;font-size:10px;font-weight:500;color:var(--tg-text2);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--tg-border)}
+td{padding:8px 9px;border-bottom:1px solid var(--tg-metricborder);color:var(--tg-text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--tg-surface2)}
+
+/* ── TAGS ── */
+.tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:500}
+.tag-danger{background:var(--tg-danger-bg);color:var(--tg-danger-t)}
+.tag-warn{background:var(--tg-warn-bg);color:var(--tg-warn-t)}
+.tag-success{background:var(--tg-success-bg);color:var(--tg-success-t)}
+.tag-info{background:var(--tg-info-bg);color:var(--tg-info-t)}
+.tag-gray{background:var(--tg-tag-bg);color:var(--tg-tag-t)}
+
+/* ── ALERTS ── */
+.alert-list{display:flex;flex-direction:column;gap:7px}
+.alert-item{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border-radius:8px;border:1px solid;font-size:12px}
+.alert-item.danger{background:var(--tg-danger-bg);border-color:var(--tg-danger-t);color:var(--tg-danger-t)}
+.alert-item.warn{background:var(--tg-warn-bg);border-color:var(--tg-warn-t);color:var(--tg-warn-t)}
+.alert-item.info{background:var(--tg-info-bg);border-color:var(--tg-info-t);color:var(--tg-info-t)}
+
+/* ── BAR CHART ── */
+.bar-row{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.bar-label{width:130px;color:var(--tg-text2);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:7px;background:var(--tg-surface2);border-radius:4px;overflow:hidden;border:1px solid var(--tg-border)}
+.bar-fill{height:100%;border-radius:4px;background:var(--tg-accent);transition:width .5s}
+.bar-val{width:65px;text-align:right;font-size:11px;color:var(--tg-text2)}
+
+/* ── SHIFT ── */
+.shift-grid{display:grid;grid-template-columns:80px repeat(12,1fr);gap:2px;font-size:10px}
+.shift-header{text-align:center;color:var(--tg-text2);padding:1px 0}
+.shift-name{color:var(--tg-text2);display:flex;align-items:center;font-size:11px}
+.shift-on{height:18px;border-radius:2px;background:var(--tg-accent);opacity:.8}
+.shift-off{height:18px;border-radius:2px;background:var(--tg-surface2);border:1px solid var(--tg-border)}
+
+/* ── GEO ── */
+.geo-map{background:var(--tg-surface2);border:1px solid var(--tg-border);border-radius:8px;height:190px;position:relative;overflow:hidden;margin-bottom:.8rem}
+.geo-zone{position:absolute;border-radius:50%;border:1.5px dashed;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.geo-dot{position:absolute;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%)}
+@keyframes gpulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.35)}}
+.gpulse{animation:gpulse 2s ease-in-out infinite}
+
+/* ── SESSION LOG ── */
+#session-log-list{display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto}
+.sess-row{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:7px;font-size:12px;border:1px solid var(--tg-border);background:var(--tg-metric)}
+.sess-icon{font-size:14px;flex-shrink:0}
+.sess-info{flex:1;color:var(--tg-text)}
+.sess-time{font-size:11px;color:var(--tg-text2);white-space:nowrap}
+.sess-in{border-left:3px solid var(--tg-success-t)}
+.sess-out{border-left:3px solid var(--tg-warn-t)}
+
+/* ── RECEIPT ── */
+.receipt{font-family:var(--font-mono);font-size:11px;background:var(--tg-surface2);border:1px solid var(--tg-border);border-radius:8px;padding:.9rem;line-height:1.9;color:var(--tg-text)}
+.rdiv{border-top:1px dashed var(--tg-border);margin:5px 0}
+.form-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:.9rem}
+.form-row .field{margin:0;flex:1;min-width:110px}
+</style>
+
+<div id="session-toast"></div>
+
+<!-- LOGIN -->
+<div id="login-wrap">
+  <div class="login-top">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:20px">🛡️</span>
+      <span style="font-size:15px;font-weight:500;color:#fff">TheftGuardPOS</span>
+    </div>
+    <div style="text-align:right">
+      <div class="login-clock" id="login-clock">--:--:--</div>
+      <div class="login-date" id="login-date">Loading...</div>
+    </div>
+  </div>
+  <div class="login-body">
+    <div class="login-card">
+      <div class="brand">
+        <div class="brand-logo">🛡️</div>
+        <h1>TheftGuardPOS</h1>
+        <p>Supermarket Intelligence &amp; Security System</p>
+      </div>
+      <div style="font-size:11px;color:var(--tg-text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Quick demo role</div>
+      <div class="role-row">
+        <div class="rpill active" onclick="selectRole(this,'admin')"><i class="ti ti-crown" style="font-size:11px"></i> Owner</div>
+        <div class="rpill" onclick="selectRole(this,'manager')"><i class="ti ti-briefcase" style="font-size:11px"></i> Manager</div>
+        <div class="rpill" onclick="selectRole(this,'cashier')"><i class="ti ti-credit-card" style="font-size:11px"></i> Cashier</div>
+        <div class="rpill" onclick="selectRole(this,'storekeeper')"><i class="ti ti-package" style="font-size:11px"></i> Storekeeper</div>
+        <div class="rpill" onclick="selectRole(this,'accountant')"><i class="ti ti-chart-bar" style="font-size:11px"></i> Accountant</div>
+      </div>
+      <div class="field">
+        <label><i class="ti ti-user" style="font-size:12px;vertical-align:-1px"></i> Username</label>
+        <input id="lg-user" type="text" placeholder="Enter your username" autocomplete="username" oninput="clearErr()"/>
+      </div>
+      <div class="field">
+        <label><i class="ti ti-lock" style="font-size:12px;vertical-align:-1px"></i> Password</label>
+        <div class="pass-wrap">
+          <input id="lg-pass" type="password" placeholder="Enter your password" autocomplete="current-password" oninput="checkStrength();clearErr()" onkeydown="checkCaps(event)" onkeyup="checkCaps(event)"/>
+          <button class="pass-eye" onclick="toggleEye()" id="eye-btn" aria-label="Toggle password visibility"><i class="ti ti-eye" id="eye-icon"></i></button>
+        </div>
+        <div class="capslock-warn" id="caps-warn"><i class="ti ti-alert-triangle" style="font-size:11px;vertical-align:-1px"></i> Caps Lock is on</div>
+      </div>
+      <div class="security-bar"><div class="security-fill" id="sec-fill" style="width:0%;background:#e74c3c"></div></div>
+      <div class="security-label" id="sec-label">Enter password to check strength</div>
+      <div id="tfa-box" style="display:none">
+        <div class="field">
+          <label><i class="ti ti-device-mobile" style="font-size:12px;vertical-align:-1px"></i> 2FA Code (demo: 123456)</label>
+          <input id="tfa-input" type="text" maxlength="6" placeholder="6-digit code" style="letter-spacing:.3em;text-align:center" oninput="clearErr()"/>
+        </div>
+      </div>
+      <button class="btn-login" id="login-btn" onclick="doLogin()"><i class="ti ti-login" style="font-size:14px;vertical-align:-2px"></i> Sign In</button>
+      <div class="err-msg" id="login-err"></div>
+      <div class="attempts-warn" id="attempts-warn"></div>
+      <span class="forgot-link" onclick="showForgot()"><i class="ti ti-help" style="font-size:12px;vertical-align:-1px"></i> Forgot password?</span>
+      <div style="margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--tg-border);display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-sm" onclick="setTheme('default')" style="font-size:11px;padding:4px 10px">🔵 Default</button>
+        <button class="btn-sm" onclick="setTheme('yellow')" style="font-size:11px;padding:4px 10px">🟡 Yellow/Black</button>
+        <button class="btn-sm" onclick="setTheme('blue')" style="font-size:11px;padding:4px 10px">🔷 White/Blue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOCKOUT -->
+<div id="lockout-wrap">
+  <div style="font-size:40px">🔒</div>
+  <h2>Account Temporarily Locked</h2>
+  <p>Too many failed login attempts. Please wait before trying again.</p>
+  <div id="lockout-timer">5:00</div>
+  <p style="font-size:12px">Contact your administrator if this is an error.</p>
+</div>
+
+<!-- FORGOT PASSWORD -->
+<div id="forgot-wrap">
+  <div class="modal-card">
+    <h2><i class="ti ti-key" style="font-size:18px;vertical-align:-2px;margin-right:6px"></i>Reset password</h2>
+    <p>Enter your registered username or email. A secure reset link will be sent to the associated address.</p>
+    <div class="field"><label>Username or email</label><input id="reset-input" type="text" placeholder="e.g. jane.cashier"/></div>
+    <div class="success-msg" id="reset-ok"><i class="ti ti-check" style="font-size:12px;vertical-align:-1px"></i> Reset link sent! Check your email within 5 minutes.</div>
+    <div class="modal-actions">
+      <button class="btn-sm primary" onclick="sendReset()">Send reset link</button>
+      <button class="btn-sm" onclick="hideForgot()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app-wrap">
+  <div class="topbar">
+    <div class="topbar-brand"><span>🛡️</span>TheftGuardPOS</div>
+    <div class="theme-btns">
+      <button class="theme-btn active" id="tb-default" onclick="setTheme('default')">Default</button>
+      <button class="theme-btn" id="tb-yellow" onclick="setTheme('yellow')">Yellow/Black</button>
+      <button class="theme-btn" id="tb-blue" onclick="setTheme('blue')">White/Blue</button>
+    </div>
+    <div class="topbar-clock" id="app-clock">--:--:--</div>
+    <div class="topbar-date" id="app-date"></div>
+    <div class="topbar-user">
+      <i class="ti ti-user-circle" style="font-size:18px;opacity:.7"></i>
+      <span id="tb-name">—</span>
+      <span class="role-badge" id="tb-role">—</span>
+      <span class="session-badge" id="tb-session"></span>
+      <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout" style="font-size:13px;vertical-align:-1px"></i> Sign out</button>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div class="main">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-title"><i class="ti ti-layout-dashboard"></i> Live Dashboard</div>
+        <div class="metric-grid">
+          <div class="metric success"><div class="metric-label">Today's Sales</div><div class="metric-value">KSh 145K</div><div class="metric-sub">↑ 12% vs yesterday</div></div>
+          <div class="metric success"><div class="metric-label">Gross Profit</div><div class="metric-value">KSh 38K</div><div class="metric-sub">Margin 26.2%</div></div>
+          <div class="metric warn"><div class="metric-label">Low Stock</div><div class="metric-value">14</div><div class="metric-sub">Need reorder</div></div>
+          <div class="metric danger"><div class="metric-label">Missing Stock</div><div class="metric-value">3</div><div class="metric-sub">Discrepancy</div></div>
+          <div class="metric"><div class="metric-label">Transactions</div><div class="metric-value">412</div><div class="metric-sub">Avg KSh 352</div></div>
+          <div class="metric warn"><div class="metric-label">Near Expiry</div><div class="metric-value">12</div><div class="metric-sub">Within 5 days</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem">
+          <div class="card">
+            <div class="card-title"><i class="ti ti-bell-ringing" style="color:var(--tg-danger-t)"></i> Active Alerts</div>
+            <div class="alert-list">
+              <div class="alert-item danger"><i class="ti ti-alert-triangle"></i><span>5 cartons of milk missing — expected 40, found 35.</span></div>
+              <div class="alert-item warn"><i class="ti ti-package"></i><span>Cooking Oil 2L — only 3 units remaining.</span></div>
+              <div class="alert-item warn"><i class="ti ti-calendar-x"></i><span>12 yogurt products expire in 5 days.</span></div>
+              <div class="alert-item info"><i class="ti ti-eye"></i><span>Cashier John: 8 refunds today (avg: 2). Investigate.</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="ti ti-trophy"></i> Top Products Today</div>
+            <div class="bar-row"><span class="bar-label">Unga Maize 2kg</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-val">KSh 22,400</span></div>
+            <div class="bar-row"><span class="bar-label">Milk 500ml</span><div class="bar-track"><div class="bar-fill" style="width:74%"></div></div><span class="bar-val">KSh 18,600</span></div>
+            <div class="bar-row"><span class="bar-label">Cooking Oil 2L</span><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div><span class="bar-val">KSh 16,250</span></div>
+            <div class="bar-row"><span class="bar-label">Sugar 1kg</span><div class="bar-track"><div class="bar-fill" style="width:58%"></div></div><span class="bar-val">KSh 14,500</span></div>
+            <div class="bar-row"><span class="bar-label">Bread 400g</span><div class="bar-track"><div class="bar-fill" style="width:44%"></div></div><span class="bar-val">KSh 11,000</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-users"></i> Staff On Shift <span class="tag tag-success" style="font-size:11px">5 active</span></div>
+          <table>
+            <tr><th>Employee</th><th>Role</th><th>Clocked In</th><th>Location</th><th>Sales</th><th>Status</th></tr>
+            <tr><td>Jane Wanjiku</td><td>Cashier</td><td>08:02 AM</td><td><span class="tag tag-success">In zone</span></td><td>KSh 31,200</td><td><span class="tag tag-success">Active</span></td></tr>
+            <tr><td>John Kamau</td><td>Cashier</td><td>08:15 AM</td><td><span class="tag tag-warn">Back zone</span></td><td>KSh 28,450</td><td><span class="tag tag-warn">Idle 12m</span></td></tr>
+            <tr><td>Mary Njeri</td><td>Storekeeper</td><td>07:55 AM</td><td><span class="tag tag-success">In zone</span></td><td>—</td><td><span class="tag tag-success">Active</span></td></tr>
+            <tr><td>Peter Otieno</td><td>Manager</td><td>07:45 AM</td><td><span class="tag tag-success">In zone</span></td><td>—</td><td><span class="tag tag-success">Supervising</span></td></tr>
+            <tr><td>Grace Achieng</td><td>Cashier</td><td>08:30 AM</td><td><span class="tag tag-danger">Out of zone</span></td><td>KSh 22,100</td><td><span class="tag tag-danger">Alert sent</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- SALES -->
+      <div class="page" id="page-sales">
+        <div class="page-title"><i class="ti ti-credit-card"></i> Point of Sale</div>
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1.1rem">
+          <div class="card">
+            <div class="card-title"><i class="ti ti-shopping-cart"></i> Current Sale</div>
+            <div class="form-row">
+              <div class="field" style="flex:2"><label>Barcode / Product</label><input type="text" placeholder="Scan or type barcode..." id="barcode-input"/></div>
+              <button class="btn-sm primary" onclick="addItem()">Add</button>
+            </div>
+            <table id="sale-table">
+              <tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th><th></th></tr>
+              <tr><td>Unga Maize 2kg</td><td>2</td><td>KSh 160</td><td>KSh 320</td><td><span style="cursor:pointer;color:var(--tg-danger-t)" onclick="this.closest('tr').remove()">✕</span></td></tr>
+              <tr><td>Milk 500ml</td><td>3</td><td>KSh 65</td><td>KSh 195</td><td><span style="cursor:pointer;color:var(--tg-danger-t)" onclick="this.closest('tr').remove()">✕</span></td></tr>
+              <tr><td>Sugar 1kg</td><td>1</td><td>KSh 145</td><td>KSh 145</td><td><span style="cursor:pointer;color:var(--tg-danger-t)" onclick="this.closest('tr').remove()">✕</span></td></tr>
+            </table>
+            <div style="margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--tg-border)">
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--tg-text2);margin-bottom:3px"><span>Subtotal</span><span>KSh 660</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--tg-text2);margin-bottom:3px"><span>VAT (16%)</span><span>KSh 105.60</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:500;margin-top:5px"><span>Total</span><span>KSh 765.60</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="ti ti-cash"></i> Payment</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:.9rem">
+              <button class="btn-sm" style="padding:12px" onclick="setPay('Cash')"><i class="ti ti-banknote"></i> Cash</button>
+              <button class="btn-sm primary" style="padding:12px" onclick="setPay('M-Pesa')"><i class="ti ti-device-mobile"></i> M-Pesa</button>
+              <button class="btn-sm" style="padding:12px" onclick="setPay('Card')"><i class="ti ti-credit-card"></i> Card</button>
+              <button class="btn-sm" style="padding:12px" onclick="setPay('Credit')"><i class="ti ti-file-invoice"></i> Credit</button>
+            </div>
+            <div class="field"><label>Discount (%)</label><input type="number" min="0" max="50" value="0"/></div>
+            <div id="pay-sel" style="font-size:12px;color:var(--tg-text2);margin-bottom:.8rem">Selected: <b>M-Pesa</b></div>
+            <button class="btn-sm primary" style="width:100%;padding:12px;font-size:14px" onclick="completeSale()"><i class="ti ti-check"></i> Complete Sale</button>
+            <button class="btn-sm" style="width:100%;margin-top:7px" onclick="alert('Sale voided.')"><i class="ti ti-trash"></i> Void / Cancel</button>
+            <div id="receipt-area" style="display:none;margin-top:.9rem">
+              <div class="receipt">
+                <div style="text-align:center;font-weight:500">TheftGuardPOS — Main Branch</div>
+                <div style="text-align:center;font-size:10px;color:var(--tg-text2)">Receipt #TG-00412 | <span id="r-time"></span></div>
+                <div class="rdiv"></div>
+                <div style="display:flex;justify-content:space-between"><span>Unga Maize 2kg x2</span><span>KSh 320</span></div>
+                <div style="display:flex;justify-content:space-between"><span>Milk 500ml x3</span><span>KSh 195</span></div>
+                <div style="display:flex;justify-content:space-between"><span>Sugar 1kg x1</span><span>KSh 145</span></div>
+                <div class="rdiv"></div>
+                <div style="display:flex;justify-content:space-between"><span>Total (incl. VAT)</span><span>KSh 765.60</span></div>
+                <div class="rdiv"></div>
+                <div style="text-align:center;font-size:10px">Thank you for shopping!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STOCK -->
+      <div class="page" id="page-stock">
+        <div class="page-title"><i class="ti ti-package"></i> Stock Management</div>
+        <div class="metric-grid">
+          <div class="metric"><div class="metric-label">Total SKUs</div><div class="metric-value">1,284</div></div>
+          <div class="metric warn"><div class="metric-label">Low Stock</div><div class="metric-value">14</div></div>
+          <div class="metric danger"><div class="metric-label">Out of Stock</div><div class="metric-value">3</div></div>
+          <div class="metric warn"><div class="metric-label">Near Expiry</div><div class="metric-value">12</div></div>
+          <div class="metric danger"><div class="metric-label">Discrepancies</div><div class="metric-value">5</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-list"></i> Inventory <button class="btn-sm primary" style="font-size:11px;padding:3px 9px">Generate PO</button></div>
+          <table>
+            <tr><th>Barcode</th><th>Product</th><th>Stock</th><th>Min</th><th>Expiry</th><th>Status</th></tr>
+            <tr><td>6001007088</td><td>Unga Maize 2kg</td><td>142</td><td>50</td><td>2025-09-01</td><td><span class="tag tag-success">OK</span></td></tr>
+            <tr><td>6002002430</td><td>Milk 500ml</td><td>35</td><td>40</td><td style="color:var(--tg-danger-t);font-weight:500">2026-05-17</td><td><span class="tag tag-danger">Low+Expiry</span></td></tr>
+            <tr><td>6003301122</td><td>Cooking Oil 2L</td><td>3</td><td>20</td><td>2026-08-10</td><td><span class="tag tag-danger">Critical</span></td></tr>
+            <tr><td>6004101033</td><td>Sugar 1kg</td><td>88</td><td>30</td><td>2026-12-01</td><td><span class="tag tag-success">OK</span></td></tr>
+            <tr><td>6005201987</td><td>Yogurt 500ml</td><td>24</td><td>15</td><td style="color:var(--tg-warn-t);font-weight:500">2026-05-17</td><td><span class="tag tag-warn">Near expiry</span></td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-shield-exclamation" style="color:var(--tg-danger-t)"></i> Smart Loss Detection</div>
+          <div class="alert-list">
+            <div class="alert-item danger"><i class="ti ti-search"></i><span>Milk 500ml — Expected 40, sold 12, delivered 7. Found 35. Missing: 0. Possible theft.</span></div>
+            <div class="alert-item danger"><i class="ti ti-receipt-off"></i><span>Fake return: John Kamau — 6 items KSh 4,560 returned. Items not found in re-shelved stock.</span></div>
+            <div class="alert-item warn"><i class="ti ti-trending-down"></i><span>Sugar 1kg — 22 units reduced with no sales between 12:00–13:00.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMPLOYEES -->
+      <div class="page" id="page-employees">
+        <div class="page-title"><i class="ti ti-users"></i> Employees &amp; Attendance</div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-calendar"></i> Today's Shifts</div>
+          <div class="shift-grid" style="margin-bottom:.4rem">
+            <div></div>
+            <div class="shift-header">6a</div><div class="shift-header">7</div><div class="shift-header">8</div><div class="shift-header">9</div><div class="shift-header">10</div><div class="shift-header">11</div><div class="shift-header">12</div><div class="shift-header">1p</div><div class="shift-header">2</div><div class="shift-header">3</div><div class="shift-header">4</div><div class="shift-header">5</div>
+            <div class="shift-name">Jane W.</div><div class="shift-off"></div><div class="shift-off"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-off"></div><div class="shift-off"></div>
+            <div class="shift-name">John K.</div><div class="shift-off"></div><div class="shift-off"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-off"></div><div class="shift-off"></div>
+            <div class="shift-name">Mary N.</div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-off"></div><div class="shift-off"></div><div class="shift-off"></div><div class="shift-off"></div><div class="shift-off"></div><div class="shift-off"></div>
+            <div class="shift-name">Peter O.</div><div class="shift-off"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-on"></div><div class="shift-off"></div>
+          </div>
+          <div style="display:flex;gap:10px;font-size:10px;color:var(--tg-text2)"><span style="display:flex;align-items:center;gap:3px"><span style="display:inline-block;width:10px;height:10px;background:var(--tg-accent);border-radius:2px"></span>On shift</span><span style="display:flex;align-items:center;gap:3px"><span style="display:inline-block;width:10px;height:10px;background:var(--tg-surface2);border-radius:2px;border:1px solid var(--tg-border)"></span>Off</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem">
+          <div class="card">
+            <div class="card-title"><i class="ti ti-map-pin"></i> Geofence Monitor</div>
+            <div class="geo-map">
+              <div class="geo-zone" style="width:155px;height:135px;top:27px;left:50%;transform:translateX(-50%);border-color:var(--tg-accent);color:var(--tg-accent);opacity:.4">PREMISES</div>
+              <div class="geo-zone" style="width:85px;height:65px;top:52px;left:50%;transform:translateX(-50%);border-color:var(--tg-success-t);color:var(--tg-success-t);opacity:.5">CASHIER</div>
+              <div class="geo-dot gpulse" style="background:#10b981;top:88px;left:44%"></div>
+              <div class="geo-dot gpulse" style="background:#10b981;top:98px;left:54%;animation-delay:.4s"></div>
+              <div class="geo-dot" style="background:#f59e0b;top:128px;left:36%"></div>
+              <div class="geo-dot gpulse" style="background:#10b981;top:78px;left:50%;animation-delay:.8s"></div>
+              <div class="geo-dot" style="background:#ef4444;top:172px;left:79%"></div>
+            </div>
+            <div style="font-size:11px;color:var(--tg-text2)"><span style="color:#10b981">●</span> In zone &nbsp;<span style="color:#f59e0b">●</span> Back area &nbsp;<span style="color:#ef4444">●</span> Out of zone</div>
+            <div style="font-size:11px;color:var(--tg-danger-t);margin-top:4px"><i class="ti ti-alert-triangle" style="font-size:11px;vertical-align:-1px"></i> Grace Achieng outside store — manager alerted</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="ti ti-user-check"></i> User Accounts</div>
+            <table>
+              <tr><th>Name</th><th>Username</th><th>Role</th><th>Action</th></tr>
+              <tr><td>Peter Otieno</td><td>peter.manager</td><td><span class="tag tag-info">Manager</span></td><td><button class="btn-sm" style="font-size:10px;padding:2px 7px">Reset PW</button></td></tr>
+              <tr><td>Jane Wanjiku</td><td>jane.cashier</td><td><span class="tag tag-gray">Cashier</span></td><td><button class="btn-sm" style="font-size:10px;padding:2px 7px">Reset PW</button></td></tr>
+              <tr><td>John Kamau</td><td>john.cashier</td><td><span class="tag tag-danger">Flagged</span></td><td><button class="btn-sm" style="font-size:10px;padding:2px 7px">Reset PW</button></td></tr>
+              <tr><td>Mary Njeri</td><td>mary.store</td><td><span class="tag tag-gray">Storekeeper</span></td><td><button class="btn-sm" style="font-size:10px;padding:2px 7px">Reset PW</button></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORTS -->
+      <div class="page" id="page-reports">
+        <div class="page-title"><i class="ti ti-file-analytics"></i> Reports &amp; Audit</div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-download"></i> Export Report</div>
+          <div class="form-row">
+            <div class="field"><label>Type</label><select><option>Full Daily Summary</option><option>Sales Report</option><option>Stock Movement</option><option>Missing Stock</option><option>Expiry Report</option></select></div>
+            <div class="field"><label>Format</label><select><option>PDF</option><option>Excel</option><option>CSV</option></select></div>
+            <div class="field"><label>Date</label><input type="date" value="2026-05-12"/></div>
+            <button class="btn-sm primary" onclick="exportRpt()">Export</button>
+          </div>
+          <div id="rpt-msg" style="display:none;padding:8px 12px;background:var(--tg-success-bg);border-radius:8px;font-size:12px;color:var(--tg-success-t)"><i class="ti ti-check" style="font-size:12px;vertical-align:-1px"></i> Report generated and sent to owner email + WhatsApp</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-shield-lock"></i> Session &amp; Audit Log</div>
+          <div id="session-log-list">
+            <div class="sess-row sess-in"><span class="sess-icon"><i class="ti ti-login" style="color:var(--tg-success-t)"></i></span><div class="sess-info"><b>System start</b> — audit log initialized</div><span class="sess-time" id="init-time">—</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-list-details"></i> Activity Audit Trail</div>
+          <table>
+            <tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr>
+            <tr><td>14:05</td><td>john.cashier</td><td><span class="tag tag-danger">Refund</span></td><td>KSh 4,560 — 6 items not re-shelved</td></tr>
+            <tr><td>13:12</td><td>john.cashier</td><td><span class="tag tag-warn">Stock edit</span></td><td>Sugar 1kg: 110 → 88</td></tr>
+            <tr><td>10:30</td><td>mary.store</td><td><span class="tag tag-info">Delivery</span></td><td>200 units Unga Maize from Kitui Millers</td></tr>
+            <tr><td>08:45</td><td>admin</td><td><span class="tag tag-gray">Login</span></td><td>Admin login — Nairobi HQ</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- SUPPLIERS -->
+      <div class="page" id="page-suppliers">
+        <div class="page-title"><i class="ti ti-truck"></i> Suppliers</div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-building-store"></i> Supplier Directory</div>
+          <table>
+            <tr><th>Supplier</th><th>Contact</th><th>Products</th><th>Last Delivery</th><th>Pending PO</th><th>Status</th></tr>
+            <tr><td>Kitui Millers Ltd</td><td>0722 111 222</td><td>Flour, Maize</td><td>May 10</td><td>KSh 45,000</td><td><span class="tag tag-success">Active</span></td></tr>
+            <tr><td>Brookside Dairies</td><td>0733 222 333</td><td>Milk, Yogurt</td><td>May 11</td><td>KSh 22,500</td><td><span class="tag tag-warn">Overdue 2d</span></td></tr>
+            <tr><td>Pwani Oil Group</td><td>0700 400 500</td><td>Cooking Oil</td><td>May 8</td><td>KSh 78,000</td><td><span class="tag tag-danger">Urgent</span></td></tr>
+            <tr><td>Nairobi Bakeries</td><td>0755 600 700</td><td>Bread, Pastries</td><td>May 12</td><td>—</td><td><span class="tag tag-success">Active</span></td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-robot"></i> AI Reorder Suggestions</div>
+          <div class="alert-list">
+            <div class="alert-item danger"><i class="ti ti-package"></i><span>Urgent: Cooking Oil 2L — 3 units left, avg daily sales 18. Order from Pwani Oil immediately.</span></div>
+            <div class="alert-item warn"><i class="ti ti-package"></i><span>Reorder soon: Bread 400g below minimum. Suggest 50 units from Nairobi Bakeries.</span></div>
+            <div class="alert-item info"><i class="ti ti-brain"></i><span>AI forecast: Unga Maize demand +18% next week (month-end payday). Order 300 extra units.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const ROLES={
+  admin:{label:'Owner/Admin',user:'admin@theftguard.ke',pass:'Admin@2026',nav:['dashboard','sales','stock','employees','reports','suppliers'],tfa:true},
+  manager:{label:'Manager',user:'peter.manager',pass:'Manager@2026',nav:['dashboard','sales','stock','employees','reports','suppliers'],tfa:false},
+  cashier:{label:'Cashier',user:'jane.cashier',pass:'Cashier@2026',nav:['dashboard','sales'],tfa:false},
+  storekeeper:{label:'Storekeeper',user:'mary.store',pass:'Store@2026',nav:['dashboard','stock','suppliers'],tfa:false},
+  accountant:{label:'Accountant',user:'acct.finance',pass:'Acct@2026',nav:['dashboard','reports'],tfa:false}
+};
+const NAV={dashboard:{label:'Dashboard',icon:'ti-layout-dashboard'},sales:{label:'Point of Sale',icon:'ti-credit-card'},stock:{label:'Stock Control',icon:'ti-package'},employees:{label:'Employees',icon:'ti-users'},reports:{label:'Reports & Audit',icon:'ti-file-analytics'},suppliers:{label:'Suppliers',icon:'ti-truck'}};
+
+let curRole='admin',selPay='M-Pesa',failCount=0,lockedUntil=0,loginTime=null,sessionTimer=null,lockTimer=null,tfaRequired=false,curTheme='default';
+
+function nowStr(){return new Date().toLocaleTimeString('en-KE',{hour12:false})}
+function nowFull(){return new Date().toLocaleString('en-KE',{weekday:'short',year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})}
+function nowDate(){return new Date().toLocaleDateString('en-KE',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+
+function startClock(){
+  setInterval(()=>{
+    const t=nowStr();
+    const d=nowDate();
+    const lc=document.getElementById('login-clock');
+    const ac=document.getElementById('app-clock');
+    const ld=document.getElementById('login-date');
+    const ad=document.getElementById('app-date');
+    if(lc)lc.textContent=t;
+    if(ac)ac.textContent=t;
+    if(ld)ld.textContent=d;
+    if(ad)ad.textContent=d;
+    if(loginTime&&sessionTimer){
+      const diff=Math.floor((Date.now()-loginTime)/1000);
+      const h=Math.floor(diff/3600).toString().padStart(2,'0');
+      const m=Math.floor((diff%3600)/60).toString().padStart(2,'0');
+      const s=(diff%60).toString().padStart(2,'0');
+      const sb=document.getElementById('tb-session');
+      if(sb)sb.textContent='Session: '+h+':'+m+':'+s;
+    }
+  },1000);
+}
+
+function setTheme(t){
+  curTheme=t;
+  document.body.className='theme-'+t;
+  ['default','yellow','blue'].forEach(id=>{
+    const b=document.getElementById('tb-'+id);
+    if(b)b.classList.toggle('active',id===t);
+  });
+}
+
+function selectRole(el,role){
+  document.querySelectorAll('.rpill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  curRole=role;
+  document.getElementById('lg-user').value='';
+  document.getElementById('lg-pass').value='';
+  document.getElementById('sec-fill').style.width='0%';
+  document.getElementById('sec-label').textContent='Enter password to check strength';
+  document.getElementById('tfa-box').style.display='none';
+  clearErr();
+}
+
+function clearErr(){document.getElementById('login-err').textContent='';}
+
+function toggleEye(){
+  const i=document.getElementById('lg-pass');
+  const ic=document.getElementById('eye-icon');
+  if(i.type==='password'){i.type='text';ic.className='ti ti-eye-off';}
+  else{i.type='password';ic.className='ti ti-eye';}
+}
+
+function checkCaps(e){
+  const w=document.getElementById('caps-warn');
+  if(e.getModifierState&&e.getModifierState('CapsLock'))w.style.display='block';
+  else w.style.display='none';
+}
+
+function checkStrength(){
+  const p=document.getElementById('lg-pass').value;
+  const f=document.getElementById('sec-fill');
+  const l=document.getElementById('sec-label');
+  if(!p){f.style.width='0%';l.textContent='Enter password to check strength';return;}
+  let score=0;
+  if(p.length>=8)score++;
+  if(p.length>=12)score++;
+  if(/[A-Z]/.test(p))score++;
+  if(/[0-9]/.test(p))score++;
+  if(/[^a-zA-Z0-9]/.test(p))score++;
+  const map=['0%','20%','40%','60%','80%','100%'];
+  const cols=['#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'];
+  const labs=['Too short','Weak','Fair','Good','Strong','Very strong'];
+  f.style.width=map[score];f.style.background=cols[Math.max(0,score-1)];
+  l.textContent='Password strength: '+labs[score];
+}
+
+function doLogin(){
+  if(Date.now()<lockedUntil){showErr('Account locked. Wait for timer.');return;}
+  const u=document.getElementById('lg-user').value.trim();
+  const p=document.getElementById('lg-pass').value;
+  const r=ROLES[curRole];
+  if(!u||!p){showErr('Please enter username and password.');return;}
+  if(u!==r.user||p!==r.pass){
+    failCount++;
+    const rem=3-failCount;
+    if(failCount>=3){startLockout();return;}
+    showErr('Invalid credentials. '+rem+' attempt'+(rem!==1?'s':'')+' remaining.');
+    document.getElementById('attempts-warn').style.display='block';
+    document.getElementById('attempts-warn').textContent='Warning: '+failCount+'/3 failed attempts. Account will lock after 3.';
+    return;
+  }
+  if(r.tfa&&!tfaRequired){
+    tfaRequired=true;
+    document.getElementById('tfa-box').style.display='block';
+    document.getElementById('login-btn').textContent='Verify & Sign In';
+    showErr('Admin login requires 2FA. Enter the 6-digit code.');
+    return;
+  }
+  if(r.tfa&&tfaRequired){
+    const code=document.getElementById('tfa-input').value.trim();
+    if(code!=='123456'){showErr('Invalid 2FA code. Try 123456 for demo.');return;}
+  }
+  failCount=0;tfaRequired=false;
+  bootApp(r);
+}
+
+function startLockout(){
+  const lw=document.getElementById('login-wrap');
+  const lo=document.getElementById('lockout-wrap');
+  lw.style.display='none';
+  lo.style.display='flex';
+  lockedUntil=Date.now()+5*60*1000;
+  let secs=300;
+  const tick=()=>{
+    secs--;
+    const m=Math.floor(secs/60);
+    const s=(secs%60).toString().padStart(2,'0');
+    document.getElementById('lockout-timer').textContent=m+':'+s;
+    if(secs<=0){
+      lockedUntil=0;failCount=0;
+      lo.style.display='none';
+      lw.style.display='flex';
+    } else lockTimer=setTimeout(tick,1000);
+  };
+  lockTimer=setTimeout(tick,1000);
+}
+
+function bootApp(r){
+  document.getElementById('login-wrap').style.display='none';
+  document.getElementById('forgot-wrap').style.display='none';
+  const app=document.getElementById('app-wrap');
+  app.style.display='flex';
+  const now=nowStr();
+  loginTime=Date.now();
+  clearInterval(sessionTimer);
+  sessionTimer=setInterval(()=>{},1000);
+  document.getElementById('tb-name').textContent=r.user.split('@')[0].split('.').map(s=>s[0].toUpperCase()+s.slice(1)).join(' ');
+  document.getElementById('tb-role').textContent=r.label;
+  buildSidebar(r.nav);
+  showPage('dashboard');
+  logSession('in',r.label,now);
+  showToast('login','Logged in as '+r.label+' at '+now,4000);
+  document.getElementById('init-time').textContent=now;
+}
+
+function doLogout(){
+  const now=nowStr();
+  const role=document.getElementById('tb-role').textContent;
+  const name=document.getElementById('tb-name').textContent;
+  logSession('out',role+' — '+name,now);
+  showToast('logout','Logged out at '+now,4000);
+  loginTime=null;clearInterval(sessionTimer);
+  setTimeout(()=>{
+    document.getElementById('app-wrap').style.display='none';
+    document.getElementById('login-wrap').style.display='flex';
+    document.getElementById('lg-user').value='';
+    document.getElementById('lg-pass').value='';
+    document.getElementById('tfa-box').style.display='none';
+    document.getElementById('tfa-input').value='';
+    document.getElementById('login-btn').textContent='Sign In';
+    document.getElementById('sec-fill').style.width='0%';
+    document.getElementById('sec-label').textContent='Enter password to check strength';
+    document.getElementById('attempts-warn').style.display='none';
+    tfaRequired=false;
+  },1500);
+}
+
+function logSession(type,who,time){
+  const list=document.getElementById('session-log-list');
+  if(!list)return;
+  const row=document.createElement('div');
+  row.className='sess-row sess-'+(type==='in'?'in':'out');
+  row.innerHTML=`<span class="sess-icon"><i class="ti ti-${type==='in'?'login':'logout'}" style="color:var(--tg-${type==='in'?'success':'warn'}-t)"></i></span><div class="sess-info"><b>${type==='in'?'Login':'Logout'}</b> — ${who}</div><span class="sess-time">${time}</span>`;
+  list.insertBefore(row,list.firstChild);
+}
+
+function showToast(type,msg,dur){
+  const t=document.getElementById('session-toast');
+  t.className='session-toast-'+type+' '+(type==='login'?'login-toast':'logout-toast');
+  t.textContent=(type==='login'?'✅ ':'👋 ')+msg;
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',dur||3000);
+}
+
+function showErr(m){document.getElementById('login-err').textContent=m;}
+
+function buildSidebar(pages){
+  const sb=document.getElementById('sidebar');
+  sb.innerHTML='<div class="nav-section">Menu</div>';
+  pages.forEach(id=>{
+    const m=NAV[id];
+    const d=document.createElement('div');
+    d.className='nav-item';d.id='nav-'+id;
+    d.innerHTML=`<i class="ti ${m.icon}"></i>${m.label}`;
+    d.onclick=()=>showPage(id);
+    sb.appendChild(d);
+  });
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg)pg.classList.add('active');
+  const nav=document.getElementById('nav-'+id);
+  if(nav)nav.classList.add('active');
+}
+
+function showForgot(){
+  document.getElementById('login-wrap').style.display='none';
+  const fw=document.getElementById('forgot-wrap');
+  fw.style.display='flex';
+  document.getElementById('reset-ok').style.display='none';
+  document.getElementById('reset-input').value='';
+}
+function hideForgot(){
+  document.getElementById('forgot-wrap').style.display='none';
+  document.getElementById('login-wrap').style.display='flex';
+}
+function sendReset(){
+  const v=document.getElementById('reset-input').value.trim();
+  if(v){document.getElementById('reset-ok').style.display='block';}
+}
+function addItem(){const b=document.getElementById('barcode-input').value;if(!b)return;const tb=document.getElementById('sale-table');const tr=document.createElement('tr');tr.innerHTML=`<td>${b}</td><td>1</td><td>KSh 100</td><td>KSh 100</td><td><span style="cursor:pointer;color:var(--tg-danger-t)" onclick="this.closest('tr').remove()">✕</span></td>`;tb.appendChild(tr);document.getElementById('barcode-input').value='';}
+function setPay(m){selPay=m;document.getElementById('pay-sel').innerHTML='Selected: <b>'+m+'</b>';}
+function completeSale(){document.getElementById('receipt-area').style.display='block';document.getElementById('r-time').textContent=nowFull();}
+function exportRpt(){const m=document.getElementById('rpt-msg');m.style.display='block';setTimeout(()=>m.style.display='none',4000);}
+
+startClock();
+document.body.className='theme-default';
+</script>
